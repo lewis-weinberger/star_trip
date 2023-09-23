@@ -1,0 +1,7 @@
+#!/bin/sh
+# Run from repository root
+wasm-pack build --release \
+                --target web \
+                --no-pack \
+                --no-typescript \
+                --out-dir www/pkg

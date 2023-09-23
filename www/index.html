@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+          mininimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="game">
+      <canvas id="game-canvas"></canvas>
+      <!-- Use an input element to detect keyboard input rather than the
+        -- canvas itself, so that users on mobile devices will have a
+        -- virtual keyboard available -->
+      <input type="text" id="game-input">
+    </div>
+    <script>
+      import("./index.js")
+        .catch(e => console.error("Unable to import index.js:", e));
+    </script>
+  </body>
+</html>

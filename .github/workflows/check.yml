@@ -1,0 +1,38 @@
+name: Check
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Toolchain
+      id: toolchain
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: "clippy, rustfmt"
+    - name: Cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          target/
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+        key: ${{ runner.os }}-rustc-${{ steps.toolchain.outputs.cachekey }}-${{ hashFiles('Cargo.toml', '.github/workflows/check.yml') }}
+    - name: Format
+      run: cargo fmt --all -- --check
+    - name: Clippy
+      if: success() || failure()
+      run: cargo clippy -- -D warnings
+    - name: Test
+      if: success() || failure()
+      run: cargo test
+
