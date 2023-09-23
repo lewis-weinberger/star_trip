@@ -693,10 +693,11 @@ Protected from hostiles until next move.",
                 x,
                 b", ",
                 y,
-                b").\nEnergy and shields restored!\n"
+                b").\nEnergy, torpedoes and shields restored!\n"
             ));
             self.player.shields = 255;
             self.player.energy = 255;
+            self.player.torpedoes = 7;
             self.evolve(false);
         } else {
             term.message(b"No bases nearby, unable to dock!");
@@ -872,8 +873,8 @@ struct Adjacent {
 fn adjacent(x: usize, y: usize) -> Adjacent {
     let xmin = x.saturating_sub(1);
     let ymin = y.saturating_sub(1);
-    let xmax = if x + 3 >= SECTORS { SECTORS - 1 } else { x + 3 };
-    let ymax = if y + 3 >= SECTORS { SECTORS - 1 } else { y + 3 };
+    let xmax = if x + 3 >= SECTORS { SECTORS } else { x + 3 };
+    let ymax = if y + 3 >= SECTORS { SECTORS } else { y + 3 };
 
     let mut coords = Vec::new();
     for i in xmin..xmax {
