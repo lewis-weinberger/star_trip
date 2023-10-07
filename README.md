@@ -8,7 +8,7 @@ games from the 1970s. The game presents the player with a command line
 interface with which to control their ship and travel the galaxy.
 
 **Try it here**:
-[https://lewis-weinberger.github.io/star_trip](https://lewis-weinberger.github.io/star_trip)
+[https://lewis-weinberger.github.io/posts/2023-09-23-star_trip.html](https://lewis-weinberger.github.io/posts/2023-09-23-star_trip.html)
 
 ![Screenshot](screenshot.png)
 
