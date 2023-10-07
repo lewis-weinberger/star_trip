@@ -39,9 +39,14 @@ macro_rules! nearby {
         'nearby: {
             let (i, j, xx, yy) = $state.position;
             for (x, y) in adjacent(i, j) {
+                if $state.visited.contains(&(x, y, xx, yy)) {
+                    continue;
+                }
+
                 match $state.galaxy[index!(x, y, xx, yy)] {
                     $(
                         Some(Entity::$entity) => {
+                            $state.visited.insert((x, y, xx, yy));
                             break 'nearby Some((x, y, Entity::$entity));
                         },
                     )*

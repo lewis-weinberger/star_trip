@@ -10,6 +10,7 @@ pub struct GameState {
     last_entry: Vec<u8>,
     page: usize,
     position: (usize, usize, usize, usize),
+    visited: HashSet<(usize, usize, usize, usize)>,
     player: Ship,
     mission: usize,
     date: usize,
@@ -20,6 +21,7 @@ impl GameState {
     pub fn new() -> Self {
         let mut galaxy = generate_galaxy();
         let logbook = vec![Vec::new()];
+        let visited = HashSet::new();
         let last_entry = b"COMPUTER ERROR: NO ENTRY AVAILABLE".to_vec();
         let page = 0;
         let mission = 0;
@@ -40,6 +42,7 @@ impl GameState {
             last_entry,
             page,
             position,
+            visited,
             player: Ship {
                 energy: 255,
                 shields: 255,
