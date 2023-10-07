@@ -37,7 +37,7 @@ impl Game {
         let state = GameState::new();
 
         let mut term = Terminal::new();
-        term.message(
+        term.message(bconcat!(
             b"##################################################
 #                                                #
 #                                                #
@@ -54,7 +54,9 @@ impl Game {
 #               dBP     dBP  BB  dBP   dBP       #
 #              dBP     dBP  dB' dBP   dBP        #
 #                                                #
-#   Version 0.1.0                                #
+#   Version ",
+            env!("CARGO_PKG_VERSION").as_bytes(),
+            b"                                #
 #                                                #
 #                                                #
 #                                                #
@@ -62,8 +64,8 @@ impl Game {
 #               + Click to start |               #
 #               +----------------+               #
 #                                                #
-##################################################",
-        );
+##################################################"
+        ));
 
         Self { term, state }
     }
