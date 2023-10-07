@@ -58,6 +58,7 @@ impl GameState {
     fn evolve(&mut self, hostile: bool) {
         use Entity::*;
 
+        let mut rng = thread_rng();
         let mut done = HashSet::new();
         let (x, y, xx, yy) = self.position;
         for i in 0..SECTORS {
@@ -75,7 +76,6 @@ impl GameState {
                     // If this evolution is hostile, enemies within range
                     // can attack player
                     let ship = if hostile && (ship.range as f64) >= dr {
-                        let mut rng = thread_rng();
                         let new;
                         let beam = if rng.gen_bool(0.5) {
                             let laser = rng.gen_range((ship.energy / 4)..(ship.energy / 2));
@@ -138,6 +138,40 @@ impl GameState {
                                     b").\n"
                                 ));
                                 break;
+                            }
+                        }
+                    }
+                }
+
+                // Small chance of star going supernova
+                if let Some(Star) = self.galaxy[sector] {
+                    if rng.gen_bool(0.01) {
+                        self.galaxy[sector] = None;
+
+                        // Damage player
+                        let (_, player) = self.fire(50, self.player);
+                        self.player = player;
+
+                        self.record(bconcat!(
+                            b"\nA nearby star went supernova!",
+                            b"\nRemaining ENERGY:  ",
+                            self.player.energy,
+                            b"\n          SHIELDS: ",
+                            self.player.shields,
+                            b"\n"
+                        ));
+
+                        // Damage other ships in the system
+                        for ii in 0..SECTORS {
+                            for jj in 0..SECTORS {
+                                let sector = index!(jj, ii, xx, yy);
+                                if let Some(
+                                    thing @ (Klargons(ship) | Remulins(ship) | Faringa(ship)
+                                    | Berg(ship)),
+                                ) = self.galaxy[sector]
+                                {
+                                    self.hit(sector, 50, thing, ship);
+                                }
                             }
                         }
                     }
@@ -371,7 +405,7 @@ Run HELP for more commands.",
         let msg = if destroyed {
             b"Their ship has been destroyed.\n"
         } else {
-            b"                               "
+            b"                              \n"
         };
 
         bconcat!(
@@ -402,7 +436,7 @@ Run HELP for more commands.",
         let msg = if destroyed {
             b"Their ship has been destroyed.\n"
         } else {
-            b"                               "
+            b"                              \n"
         };
 
         bconcat!(
