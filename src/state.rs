@@ -116,7 +116,7 @@ impl GameState {
                     // to the player (equivalent to speed 1)
                     for (n, m) in adjacent(j, i) {
                         let new = index!(n, m, xx, yy);
-                        if self.galaxy[new].is_none() {
+                        if self.galaxy[new].is_none() && n != x && m != y {
                             let ds = (y.abs_diff(m) as f64).hypot(x.abs_diff(n) as f64);
                             if ds < dr && ship.energy > 1 {
                                 let ship = Ship {
