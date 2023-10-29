@@ -154,10 +154,10 @@ async function handleKeys(e) {
   } else if([...e.key].length === 1) {
     game.input(e.key.charCodeAt(0)); // UTF-16 code unit
     drawConsole();
-  } else if(e.key === "ArrowLeft" || e.key === "Backspace") {
+  } else if(e.key === "ArrowLeft") {
     game.left();
     drawConsole();
-  } else if(e.key === "ArrowRight" || e.key === "Delete") {
+  } else if(e.key === "ArrowRight") {
     game.right();
     drawConsole();
   } else if(e.key === "ArrowUp") {
@@ -166,9 +166,17 @@ async function handleKeys(e) {
   } else if(e.key === "ArrowDown") {
     game.down();
     drawConsole();
+  } else if(e.key === "Backspace") {
+    game.input(32);
+    game.left();
+    game.left();
+    drawConsole();
+  } else if(e.key === "Delete") {
+    game.input(32);
+    drawConsole();
   } else if(e.key === "Enter") {
     status = game.enter();
-    if(status > 1) {
+    if(status > 0) {
       if(status == 1) {
         game.win();
       } else {
