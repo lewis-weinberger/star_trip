@@ -167,8 +167,8 @@ async function handleKeys(e) {
     game.down();
     drawConsole();
   } else if(e.key === "Backspace") {
-    game.input(32);
     game.left();
+    game.input(32);
     game.left();
     drawConsole();
   } else if(e.key === "Delete") {
